@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover and learn Universal Statements in an interactive and educational app.">
+    <meta name="author" content="DreamCare">
+    <meta name="keywords" content="Universal Statements, Interactive Learning, Educational App">
+    <title>Universal Statements App</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+            width: 330px;
+            height: 430px;
+            padding: 4px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #f57c00;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Makes children stack vertically */
+        }
+
+        /* .container {
+            text-align: center;
+            width: 360px;
+            height: 500px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #f57c00;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        } */
+
+        .header-section {
+            background-color: #0288d1;
+            padding: 2px;
+            border-radius: 10px;
+            margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-section select,
+        .header-section button {
+            padding: 5px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: blue;
+            font-weight: bold;
+
+        }
+
+        .header-section button:hover {
+            background: #45a049;
+        }
+
+        .statements-container {
+            background-color: #76e89c;
+            padding: .5px;
+            border-radius: 10px;
+            /* box-shadow: inset 0 0 5px rgba(192, 66, 66, 0.1); */
+            overflow-y: auto;
+            max-height: 400px;
+            /* Ensures the container remains scrollable if needed */
+        }
+
+        .statement {
+            margin: 2px 0;
+            /* Reduced margin to save space */
+            padding: 4px;
+            /* Reduced padding */
+            font-size: 0.9rem;
+            /* Slightly smaller font size */
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            background-color: rgb(242, 239, 236);
+            transition: background-color 0.3s ease;
+            color: blue;
+        }
+
+        .statement:hover {
+            background-color: #ffcc80;
+            /* Light orange for hover effect */
+            color: #f57c00;
+            /* color: #000; */
+            /* Change text color on hover */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth transition for hover effects */
+        }
+
+        /* .statement:hover {
+            background-color: #ffd740;
+        } */
+
+        .statement span:first-letter {
+            font-weight: bold;
+            color: #f57c00;
+        }
+
+        .footer {
+            margin-top: auto;
+            /* Pushes the footer to the bottom of the container */
+            text-align: center;
+            padding: 5px;
+            font-size: 0.7rem;
+            background-color: #0288d1;
+            color: #ffffff;
+            border-radius: 10px;
+        }
+
+        #volume-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: red;
+            /* Set the thumb color to yellow */
+            cursor: pointer;
+        }
+
+        #volume-control::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: red;
+            /* Set the thumb color to yellow */
+            cursor: pointer;
+        }
+
+        #volume-control::-ms-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: red;
+            /* Set the thumb color to yellow */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 6px;">
+            <h1
+                style="display: inline; font-size: .8rem; color: #0288d1; margin: 0; padding: 3px; background-color: #ffd740; border-radius: 5px;">
+                Universal Statements
+            </h1>
+        </div>
+
+        <div class="header-section">
+            <button onclick="toggleLanguage()" id="language-toggle"
+                style="font-size: 0.8rem; padding: 4px 6px; background-color: #1976d2; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">
+                English
+            </button>
+            <select id="category" onchange="loadStatements()"
+                style="font-size: 0.8rem; padding: 4px; border-radius: 3px; background-color: #e3f2fd; color: #0288d1; border: 1px solid #0288d1; cursor: pointer;">
+                <option value="life">Life</option>
+                <option value="universe">Universe</option>
+            </select>
+            <button onclick="toggleBackgroundMusic()" id="music-icon"
+                style="font-size: 0.8rem; padding: 4px 6px; background-color: #f44336; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">
+                🎵
+            </button>
+
+            <button onclick="toggleAudio()" id="audio-icon"
+                style="font-size: 0.8rem; padding: 4px 6px; background-color: #43a047; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">
+                🔊
+            </button>
+        </div>
+        <div style="margin-top: 3px; margin-bottom: 5px; display: flex; justify-content: center;">
+            <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.3" style="width: 200px; /* Adjust the slider length */
+                       height: 5px; /* Make the slider thinner */
+                       cursor: pointer; 
+                       appearance: none;
+                       background: green; /* Background color of the slider */
+                       border-radius: 2px;
+                       outline: none;">
+        </div>
+        <div id="statements" class="statements-container">
+            <!-- Statements will be dynamically loaded here -->
+        </div>
+        <div class="footer">
+            Created by <b style="color: yellow;">DreamCare</b> | © 2024 All Rights Reserved
+        </div>
+    </div>
+
+    <script>
+        const statements = {
+            life: [
+                { en: "Man is mortal.", bn: "মানুষ নশ্বর।" },
+                { en: "Time waits for no one.", bn: "সময় কারও জন্য অপেক্ষা করে না।" },
+                { en: "Life is what you make it.", bn: "জীবন আপনি যেভাবে গড়ে তোলেন।" },
+                { en: "Happiness depends upon ourselves.", bn: "সুখ আমাদের উপর নির্ভর করে।" },
+                { en: "Health is wealth.", bn: "স্বাস্থ্যই সম্পদ।" },
+                { en: "Where there is a will, there is a way.", bn: "যেখানে ইচ্ছা, সেখানে উপায়।" },
+                { en: "The journey of a thousand miles begins with a single step.", bn: "এক হাজার মাইলের যাত্রা এক ধাপ দিয়ে শুরু হয়।" },
+                { en: "Hard work beats talent when talent doesn’t work hard.", bn: "পরিশ্রম প্রতিভাকে পরাজিত করে যখন প্রতিভা কঠোর পরিশ্রম করে না।" },
+                { en: "Success is not the key to happiness. Happiness is the key to success.", bn: "সফলতা সুখের চাবিকাঠি নয়। সুখই সফলতার চাবিকাঠি।" },
+                { en: "Dream big and dare to fail.", bn: "বড় স্বপ্ন দেখুন এবং ব্যর্থ হওয়ার সাহস করুন।" }
+            ],
+            universe: [
+                { en: "The universe is vast and infinite.", bn: "ব্রহ্মান্ড বিশাল এবং অসীম।" },
+                { en: "Every star has its own story.", bn: "প্রত্যেক তারার একটি নিজস্ব গল্প রয়েছে।" },
+                { en: "Planets orbit the stars.", bn: "গ্রহগুলি তারাগুলির চারপাশে ঘোরে।" },
+                { en: "Black holes are mysterious regions of space.", bn: "ব্ল্যাক হোল হল মহাকাশের রহস্যময় অঞ্চল।" },
+                { en: "The speed of light is a universal constant.", bn: "আলোর গতি একটি সার্বজনীন ধ্রুবক।" },
+                { en: "Galaxies contain billions of stars.", bn: "গ্যালাক্সিগুলিতে বিলিয়ন বিলিয়ন তারা থাকে।" },
+                { en: "The universe is expanding.", bn: "ব্রহ্মান্ড সম্প্রসারিত হচ্ছে।" },
+                { en: "Gravity is the force that holds everything together.", bn: "মাধ্যাকর্ষণ সেই শক্তি যা সবকিছু একত্রিত করে রাখে।" },
+                { en: "Stars are born in nebulas.", bn: "তারাগুলি নেবুলায় জন্ম নেয়।" },
+                { en: "The Earth is part of the Milky Way galaxy.", bn: "পৃথিবী মিল্কি ওয়ে গ্যালাক্সির অংশ।" }
+            ]
+        };
+
+        let currentLanguage = "en";
+        let audioEnabled = true;
+        let banglaVoice = null;
+
+        // Toggle between English and Bangla
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === "en" ? "bn" : "en";
+            const languageToggle = document.getElementById("language-toggle");
+            languageToggle.textContent = currentLanguage === "en" ? "English" : "বাংলা";
+            loadStatements();
+        }
+
+        // Configure available voices and select Bangla voice
+        function setBanglaVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            banglaVoice = voices.find(voice => voice.lang === "bn-BD" || voice.lang === "bn-IN");
+            if (!banglaVoice) {
+                console.warn("Bangla voice is not available on this browser.");
+            }
+        }
+
+        // Toggle audio enable/disable
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const audioIcon = document.getElementById("audio-icon");
+            audioIcon.textContent = audioEnabled ? "🔊" : "🔇";
+        }
+
+
+        // Load and display statements dynamically
+        function loadStatements() {
+            const category = document.getElementById("category").value;
+            const container = document.getElementById("statements");
+            container.innerHTML = ""; // Clear previous statements
+
+            // Stop and reset any existing background music
+            if (window.backgroundMusic) {
+                window.backgroundMusic.pause();
+                window.backgroundMusic.currentTime = 0;
+            }
+
+            // Play category-specific background music
+            let musicFile;
+            if (category === "life") {
+                musicFile = "life-music.mp3"; // Replace with the actual path to Life category music
+            } else if (category === "universe") {
+                musicFile = "universe-music.mp3"; // Replace with the actual path to Universe category music
+            }
+            if (musicFile) {
+                const music = new Audio(musicFile);
+                music.volume = 0.3;
+                music.loop = true;
+                window.backgroundMusic = music;
+            }
+
+            // Play introductory audio for the selected category
+            let introText;
+            if (category === "life") {
+                introText = currentLanguage === "en"
+                    ? "Life is not a destination, but it is a journey. Let us explore 10 universal statements of life."
+                    : "জীবন একটি গন্তব্য নয়, এটি একটি যাত্রা। আসুন আমরা জীবনের ১০টি সার্বজনীন বিবৃতি অন্বেষণ করি।";
+            } else if (category === "universe") {
+                introText = currentLanguage === "en"
+                    ? "The universe is vast and full of mysteries. Let us explore 10 universal statements of the universe."
+                    : "ব্রহ্মান্ড বিশাল এবং রহস্যে পূর্ণ। আসুন আমরা মহাবিশ্বের ১০টি সার্বজনীন বিবৃতি অন্বেষণ করি।";
+            }
+            if (audioEnabled && introText) {
+                playAudio(introText, true); // Pass true to indicate this is an introductory text
+            }
+
+            if (statements[category]) {
+                const colors = ["#ffebee", "#e8f5e9", "#e3f2fd", "#ede7f6", "#fce4ec", "#f9fbe7", "#fffde7", "#ede7f6", "#ffecb3", "#e0f2f1"];
+                const sortedStatements = [...statements[category]].sort((a, b) =>
+                    a[currentLanguage].localeCompare(b[currentLanguage])
+                );
+
+                sortedStatements.forEach((statement, index) => {
+                    const statementDiv = document.createElement("div");
+                    statementDiv.className = "statement";
+                    statementDiv.style.backgroundColor = colors[index % colors.length]; // Assign different background colors
+                    statementDiv.innerHTML = `<span>${formatFirstLetter(statement[currentLanguage])}</span>`;
+                    statementDiv.onclick = () => {
+                        if (audioEnabled) playAudio(statement[currentLanguage]);
+                    };
+                    container.appendChild(statementDiv);
+                });
+            } else {
+                container.innerHTML = "<p>No statements available for this category.</p>";
+            }
+        }
+
+        // Format text with first letter styled
+        function formatFirstLetter(text) {
+            return `<span style="font-weight:bold; color:#f57c00;">${text.charAt(0)}</span>${text.slice(1)}`;
+        }
+
+        // Play audio with proper language and voice configuration
+        function playAudio(text, isIntro = false) {
+            if (audioEnabled) {
+                const msg = new SpeechSynthesisUtterance();
+                msg.text = text;
+
+                if (currentLanguage === "en") {
+                    msg.lang = "en-US"; // English
+                } else if (currentLanguage === "bn") {
+                    msg.lang = "bn-BD"; // Bangla
+                    if (banglaVoice) {
+                        msg.voice = banglaVoice; // Use Bangla voice if available
+                    } else {
+                        console.warn("Bangla voice not available. Check browser settings.");
+                        alert("Bangla voice is not supported on this browser.");
+                        return; // Stop execution if no Bangla voice is available
+                    }
+                }
+
+                // Play click sound only for introductory text
+                if (isIntro) {
+                    msg.onend = () => {
+                        const clickSound = new Audio('click-sound.mp3'); // Replace with the actual path to your click sound file
+                        clickSound.play().catch(error => {
+                            console.error("Error playing click sound:", error);
+                        });
+                    };
+                }
+
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        // Handle volume control
+        document.getElementById("volume-control").addEventListener("input", (event) => {
+            const volume = parseFloat(event.target.value);
+            if (window.backgroundMusic) {
+                window.backgroundMusic.volume = volume;
+            }
+        });
+
+
+        // Initialize voices and load default statements on page load
+        window.onload = () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = setBanglaVoice;
+                loadStatements();
+            } else {
+                alert("Speech Synthesis API is not supported in this browser.");
+            }
+        };
+        // Background music
+        function toggleBackgroundMusic() {
+            if (!window.backgroundMusic) {
+                console.error("No background music initialized.");
+                return;
+            }
+
+            const musicIcon = document.getElementById("music-icon");
+            if (window.backgroundMusic.paused) {
+                window.backgroundMusic.play().catch(error => {
+                    console.error("Error playing background music:", error);
+                });
+                musicIcon.style.backgroundColor = "#4caf50"; // Green for music on
+            } else {
+                window.backgroundMusic.pause();
+                musicIcon.style.backgroundColor = "#f44336"; // Red for music off
+            }
+        }
+
+    </script>
+</body>
+
+</html>
