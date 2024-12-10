@@ -165,6 +165,7 @@
             <select id="category" onchange="loadStatements()"
                 style="font-size: 0.8rem; padding: 4px; border-radius: 3px; background-color: #e3f2fd; color: blue; border: 1px solid #0288d1; cursor: pointer;">
                 <option value="life">Life</option>
+                <option value="time">Time</option>
                 <option value="universe">Universe</option>
             </select>
             <button onclick="toggleBackgroundMusic()" id="music-icon"
@@ -197,17 +198,31 @@
     <script>
         const statements = {
             life: [
-                { en: "Man is mortal.", bn: "মানুষ নশ্বর।" },
-                { en: "Time waits for no one.", bn: "সময় কারও জন্য অপেক্ষা করে না।" },
-                // { en: "Life is what you make it.", bn: "জীবন আপনি যেভাবে গড়ে তোলেন।" },
-                { en: "Happiness depends upon ourselves.", bn: "সুখ আমাদের উপর নির্ভর করে।" },
+                { en: "Man is mortal.", bn: "মানুষ মরণশীল।" },
                 { en: "Health is wealth.", bn: "স্বাস্থ্যই সম্পদ।" },
-                { en: "Where there is a will, there is a way.", bn: "যেখানে ইচ্ছা, সেখানে উপায়।" },
-                { en: "The journey of a thousand miles begins with a single step.", bn: "এক হাজার মাইলের যাত্রা এক ধাপ দিয়ে শুরু হয়।" },
-                { en: "Hard work beats talent when talent doesn’t work hard.", bn: "পরিশ্রম প্রতিভাকে পরাজিত করে যখন প্রতিভা কঠোর পরিশ্রম করে না।" },
-                { en: "Success is not the key to happiness. Happiness is the key to success.", bn: "সফলতা সুখের চাবিকাঠি নয়। সুখই সফলতার চাবিকাঠি।" },
-                { en: "Dream big and dare to fail.", bn: "বড় স্বপ্ন দেখুন এবং ব্যর্থ হওয়ার সাহস করুন।" }
+                { en: "Life is about balance.", bn: "জীবন হলো ভারসাম্য" },
+                { en: "Love makes life beautiful.", bn: "ভালোবাসা জীবনকে সুন্দর করে তোলে।" },
+                { en: "Life is a blend of joy and sorrow.", bn: "জীবন আনন্দ ও দুঃখের মিশ্রণ।" },
+                { en: "Kindness makes life worthwhile.", bn: "সদয়তা জীবনকে মূল্যবান করে তোলে।" },
+                { en: "Life is a journey, not a destination.", bn: "জীবন একটি যাত্রা, গন্তব্য নয়।" },
+                { en: "Change is the only constant in life.", bn: "জীবনে পরিবর্তনই একমাত্র ধ্রুবক।" },
+                { en: "Life is precious, cherish every moment.", bn: "জীবন মূল্যবান, প্রতিটি মুহূর্তকে গুরুত্ব দিন।" },
+                { en: "The only thing certain in life is uncertainty.", bn: "জীবনে একমাত্র নিশ্চিত বিষয় হলো অনিশ্চয়তা।" }
             ],
+
+            time: [
+                { en: "Time is a precious gift.", bn: "সময় একটি মূল্যবান উপহার।" },
+                { en: "Time waits for no one.", bn: "সময় কারো জন্য অপেক্ষা করে না।" },
+                { en: "You can’t turn back time.", bn: "আপনি সময়কে ফিরিয়ে আনতে পারেন না।" },
+                { en: "Wasting time is wasting life.", bn: "সময় নষ্ট করা জীবনের অপচয়।" },
+                { en: "Time and tide wait for none.", bn: "সময় এবং জোয়ার কারো জন্য অপেক্ষা করে না।" },
+                { en: "The best time to start is now.", bn: "শুরু করার সেরা সময় হলো এখন।" },
+                { en: "Punctuality is the soul of time.", bn: "সময়ানুবর্তিতা সময়ের আত্মা।" },
+                { en: "Lost time is never found again.", bn: "হারানো সময় আর কখনো ফিরে পাওয়া যায় না।" },
+                { en: "Time is the most valuable resource.", bn: "সময় সবচেয়ে মূল্যবান সম্পদ।" },
+                { en: "The past is history, the future is a mystery, but today is a gift.", bn: "অতীত ইতিহাস, ভবিষ্যৎ রহস্য, কিন্তু আজ একটি উপহার।" }
+            ],
+
             universe: [
                 { en: "The universe is vast and infinite.", bn: "ব্রহ্মান্ড বিশাল এবং অসীম।" },
                 { en: "Every star has its own story.", bn: "প্রত্যেক তারার একটি নিজস্ব গল্প রয়েছে।" },
@@ -267,9 +282,14 @@
             let musicFile;
             if (category === "life") {
                 musicFile = "life-music.mp3"; // Replace with the actual path to Life category music
+            
+            } else if (category === "time") {
+                musicFile = "life-music.mp3"; // Replace with the actual path to Universe category music
+            
             } else if (category === "universe") {
                 musicFile = "universe-music.mp3"; // Replace with the actual path to Universe category music
             }
+
             if (musicFile) {
                 const music = new Audio(musicFile);
                 music.volume = 0.3;
@@ -281,22 +301,30 @@
             let introText;
             if (category === "life") {
                 introText = currentLanguage === "en"
-                    ? "Life is not a destination, but it is a journey. Let us explore 9 universal statements of life."
+                    ? "Life is not a destination, but it is a journey. Let us explore few universal statements of life."
                     : "জীবন একটি গন্তব্য নয়, এটি একটি যাত্রা। আসুন আমরা জীবনের ১০টি সার্বজনীন বিবৃতি অন্বেষণ করি।";
-            } else if (category === "universe") {
+         
+                } else if (category === "time") {
                 introText = currentLanguage === "en"
-                    ? "The universe is vast and full of mysteries. Let us explore 9 universal statements of the universe."
+                    ? "Time is precious and  ever-moving. Let us explore a few universal statements about time."
+                    : "সময় মূল্যবান এবং ক্রমাগত প্রবাহিত। আসুন সময় সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
+            
+         
+                } else if (category === "universe") {
+                introText = currentLanguage === "en"
+                    ? "The universe is vast and full of mysteries. Let us explore few universal statements of the universe."
                     : "ব্রহ্মান্ড বিশাল এবং রহস্যে পূর্ণ। আসুন আমরা মহাবিশ্বের ১০টি সার্বজনীন বিবৃতি অন্বেষণ করি।";
-            }
+         
+         
+                }
             if (audioEnabled && introText) {
                 playAudio(introText, true); // Pass true to indicate this is an introductory text
             }
 
             if (statements[category]) {
                 const colors = ["#ffebee", "#e8f5e9", "#e3f2fd", "#ede7f6", "#fce4ec", "#f9fbe7", "#fffde7", "#ede7f6", "#ffecb3", "#e0f2f1"];
-                const sortedStatements = [...statements[category]].sort((a, b) =>
-                    a[currentLanguage].localeCompare(b[currentLanguage])
-                );
+                // Removed sorting to keep original order of statements
+                const sortedStatements = [...statements[category]]; // No .sort() applied
 
                 sortedStatements.forEach((statement, index) => {
                     const statementDiv = document.createElement("div");
