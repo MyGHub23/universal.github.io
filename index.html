@@ -166,6 +166,7 @@
                 style="font-size: 0.8rem; padding: 4px; border-radius: 3px; background-color: #e3f2fd; color: blue; border: 1px solid #0288d1; cursor: pointer;">
                 <option value="health">Health</option>
                 <option value="life">Life</option>
+                <option value="success">Success</option>
                 <option value="time">Time</option>
                 <option value="universe">Universe</option>
                 <option value="wisdom">Wisdom</option>
@@ -267,7 +268,24 @@
                 { en: "The path to wisdom is paved with curiosity.", bn: "জ্ঞান অর্জনের পথ কৌতূহলে পূর্ণ।" },
                 { en: "Wisdom is the ability to make sound decisions.", bn: "জ্ঞান হলো সঠিক সিদ্ধান্ত নেওয়ার ক্ষমতা।" },
                 { en: "Wisdom is the bridge between knowledge and action.", bn: "জ্ঞান হলো জ্ঞান এবং কর্মের মধ্যে সেতু।" }
+            ],
+
+            success: [
+                { en: "Success begins with a dream.", bn: "সফলতা একটি স্বপ্ন দিয়ে শুরু হয়।" },
+                { en: "Patience is a virtue of success.", bn: "ধৈর্য সফলতার একটি গুণ।" },
+                { en: "There is no shortcut to success.", bn: "সফলতার কোনো শর্টকাট নেই।" },
+                { en: "Consistency is the key to success.", bn: "ধারাবাহিকতাই সফলতার চাবিকাঠি।" },
+                { en: "Learning from failure leads to success.", bn: "ব্যর্থতা থেকে শেখা সফলতার দিকে নিয়ে যায়।" },
+                { en: "Success is built on a foundation of trust.", bn: "সফলতা বিশ্বাসের ভিত্তির উপর দাঁড়িয়ে থাকে।" },
+                { en: "Risk-taking is a part of achieving success.", bn: "ঝুঁকি নেওয়া সফলতার একটি অংশ।" },
+                { en: "Success requires focus and determination.", bn: "সফলতা অর্জনে মনোযোগ ও দৃঢ় সংকল্প প্রয়োজন।" },
+                { en: "Time management is essential for success.", bn: "সময় ব্যবস্থাপনা সফলতার জন্য অত্যাবশ্যক।" },
+                { en: "Self-discipline is the foundation of success.", bn: "আত্মনিয়ন্ত্রণ সফলতার ভিত্তি।" },
+                { en: "Success grows from small, consistent efforts.", bn: "ছোট এবং ধারাবাহিক প্রচেষ্টা থেকে সফলতা বৃদ্ধি পায়।" },
+                { en: "Success requires an optimistic, positive mental outlook.", bn: "সফলতার জন্য একটি আশাবাদী, ইতিবাচক মানসিক দৃষ্টিভঙ্গি প্রয়োজন।" },
+
             ]
+
 
         };
 
@@ -330,7 +348,10 @@
                 musicFile = "01music.mp3"; // Replace with the actual path to Universe category music
             }
 
-            
+            else if (category === "success") {
+                musicFile = "02music.mp3"; // Replace with the actual path to Universe category music
+            }
+
 
             if (musicFile) {
                 const music = new Audio(musicFile);
@@ -362,14 +383,17 @@
                     ? "The universe is vast and full of mysteries. Let us explore few universal statements of the universe."
                     : "ব্রহ্মান্ড বিশাল এবং রহস্যে পূর্ণ। আসুন আমরা মহাবিশ্বের ১০টি সার্বজনীন বিবৃতি অন্বেষণ করি।";
 
-                } else if (category === "wisdom") {
+            } else if (category === "wisdom") {
                 introText = currentLanguage === "en"
                     ? "Wisdom is a priceless treasure. Let us explore a few universal statements about wisdom."
                     : "জ্ঞান একটি অমূল্য ধন। আসুন জ্ঞানের বিষয়ে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
 
-
-
+            } else if (category === "success") {
+                introText = currentLanguage === "en"
+                    ? "Success is a journey that inspires and motivates us. Let us explore a few universal statements about success"
+                    : "সফলতা একটি যাত্রা যা আমাদের অনুপ্রাণিত ও উৎসাহিত করে। আসুন সফলতা সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
             }
+            
             if (audioEnabled && introText) {
                 playAudio(introText, true); // Pass true to indicate this is an introductory text
             }
