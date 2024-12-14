@@ -306,9 +306,10 @@
             const voices = window.speechSynthesis.getVoices();
             banglaVoice = voices.find(voice => voice.lang === "bn-BD" || voice.lang === "bn-IN");
             if (!banglaVoice) {
-                console.warn("Bangla voice is not available on this browser.");
+                console.warn("Bangla voice is not available. Switching to default English voice.");
             }
         }
+
 
         // Toggle audio enable/disable
         function toggleAudio() {
@@ -393,7 +394,7 @@
                     ? "Success is a journey that inspires and motivates us. Let us explore a few universal statements about success"
                     : "সফলতা একটি যাত্রা যা আমাদের অনুপ্রাণিত ও উৎসাহিত করে। আসুন সফলতা সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
             }
-            
+
             if (audioEnabled && introText) {
                 playAudio(introText, true); // Pass true to indicate this is an introductory text
             }
@@ -429,17 +430,13 @@
                 const msg = new SpeechSynthesisUtterance();
                 msg.text = text;
 
-                if (currentLanguage === "en") {
-                    msg.lang = "en-US"; // English
-                } else if (currentLanguage === "bn") {
-                    msg.lang = "bn-BD"; // Bangla
-                    if (banglaVoice) {
-                        msg.voice = banglaVoice; // Use Bangla voice if available
-                    } else {
-                        console.warn("Bangla voice not available. Check browser settings.");
-                        alert("Bangla voice is not supported on this browser.");
-                        return; // Stop execution if no Bangla voice is available
-                    }
+                if (currentLanguage === "bn" && !banglaVoice) {
+                    const audioFile = `audio/${text}.mp3`; // Ensure you have corresponding audio files
+                    const audio = new Audio(audioFile);
+                    audio.play().catch(error => {
+                        console.error("Error playing Bangla audio file:", error);
+                    });
+                    return;
                 }
 
                 // Play click sound only for introductory text
@@ -472,6 +469,11 @@
                 loadStatements();
             } else {
                 alert("Speech Synthesis API is not supported in this browser.");
+            }
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = setBanglaVoice;
+                loadStatements();
             }
         };
         // Background music
