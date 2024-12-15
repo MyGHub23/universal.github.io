@@ -75,26 +75,27 @@
 
         .statement {
             margin: 2px 0;
-            /* Reduced margin to save space */
             padding: 4px;
-            /* Reduced padding */
             font-size: 0.9rem;
-            /* Slightly smaller font size */
             border-bottom: 1px solid #ddd;
             cursor: pointer;
-            background-color: rgb(242, 239, 236);
-            transition: background-color 0.3s ease;
-            color: blue;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .statement.english {
+            background-color: #e8f4ff;
+            /* Light blue for English */
+        }
+
+        .statement.bangla {
+            background-color: #e8ffe8;
+            /* Light green for Bangla */
         }
 
         .statement:hover {
-            background-color: #ffcc80;
-            /* Light orange for hover effect */
+            background-color: #ffd740;
+            /* Highlight on hover */
             color: #f57c00;
-            /* color: #000; */
-            /* Change text color on hover */
-            transition: background-color 0.3s ease, color 0.3s ease;
-            /* Smooth transition for hover effects */
         }
 
         /* .statement:hover {
@@ -430,17 +431,34 @@
             if (statements[category]) {
                 statements[category].forEach(statement => {
                     const statementDiv = document.createElement("div");
-                    statementDiv.className = "statement";
-                    // Use formatFirstLetter to apply conditional styling
-                    statementDiv.innerHTML = formatFirstLetter(statement[currentLanguage]);
+                    statementDiv.className = `statement ${currentLanguage === "en" ? "english" : "bangla"}`;
+
+                    // Apply styles based on the current language
+                    if (currentLanguage === "en") {
+                        const firstLetter = statement.en.charAt(0);
+                        const restText = statement.en.slice(1);
+                        statementDiv.innerHTML = `
+                    <span style="font-size: .9rem; color: blue; font-family: Arial, sans-serif;">
+                        <span style="font-weight: bold; color: #f57c00;">${firstLetter}</span>${restText}
+                    </span>`;
+                    } else {
+                        statementDiv.innerHTML = `
+                    <span style="font-size: .9rem; color: green; font-family: 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif;">
+                        ${statement.bn}
+                    </span>`;
+                    }
+
+                    // Add click event to play audio
                     statementDiv.onclick = () => {
                         if (audioEnabled) playAudio(statement[currentLanguage]);
                     };
+
                     container.appendChild(statementDiv);
                 });
             } else {
                 container.innerHTML = "<p>No statements available for this category.</p>";
             }
+
         }
 
         // Format text with first letter styled
