@@ -7,7 +7,8 @@
     <meta name="description" content="Discover and learn Universal Statements in an interactive and educational app.">
     <meta name="author" content="DreamCare">
     <meta name="keywords" content="Universal Statements, Interactive Learning, Educational App">
-    <title>Universal Statements App</title>
+    <title>Universal Statements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -15,9 +16,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif;
             background-color: #e0f7fa;
-            padding: 10px;
         }
 
         .container {
@@ -168,6 +168,7 @@
                 <option value="life">Life</option>
                 <option value="success">Success</option>
                 <option value="time">Time</option>
+                <option value="trust">Trust</option>
                 <option value="universe">Universe</option>
                 <option value="wisdom">Wisdom</option>
             </select>
@@ -284,7 +285,25 @@
                 { en: "Success grows from small, consistent efforts.", bn: "ছোট এবং ধারাবাহিক প্রচেষ্টা থেকে সফলতা বৃদ্ধি পায়।" },
                 { en: "Success requires an optimistic, positive mental outlook.", bn: "সফলতার জন্য একটি আশাবাদী, ইতিবাচক মানসিক দৃষ্টিভঙ্গি প্রয়োজন।" },
 
+            ],
+
+            trust: [
+                { en: "Trust is built on transparency.", bn: "বিশ্বাস স্বচ্ছতার উপর নির্মিত।" },
+                { en: "Trust is the most precious gift.", bn: "বিশ্বাস সবচেয়ে মূল্যবান উপহার।" },
+                { en: "Trust cannot exist without honesty.", bn: "সততা ছাড়া বিশ্বাস থাকতে পারে না।" },
+                { en: "Trustworthy people are priceless.", bn: "বিশ্বাসযোগ্য মানুষ অমূল্য।" },
+                { en: "Losing trust means losing respect.", bn: "বিশ্বাস হারানো মানে সম্মান হারানো।" },
+                { en: "Trust creates peace and harmony.", bn: "বিশ্বাস শান্তি এবং ঐক্য তৈরি করে।" },
+                { en: "Trust is the key to a successful life.", bn: "বিশ্বাস সফল জীবনের চাবি।" },
+                { en: "Honesty is the key to building trust.", bn: "সততা বিশ্বাস গড়ার চাবিকাঠি।" },
+                // { en: "Trust is the foundation of all relationships.", bn: "বিশ্বাস সকল সম্পর্কের ভিত্তি।" },
+                { en: "Trust is the seed of all healthy connections.", bn: "বিশ্বাস হল সব সুস্থ সম্পর্কের বীজ।" },
+                { en: "Without trust, relationships cannot survive.", bn: "বিশ্বাস ছাড়া সম্পর্ক টিকে থাকতে পারে না।" },
+                // { en: "Trust takes years to build but seconds to break.", bn: "বিশ্বাস গড়তে বছর লাগে, কিন্তু ভাঙতে কয়েক সেকেন্ড।" },
+                { en: "Trust is the light that guides us through the darkness.", bn: "বিশ্বাস হলো আলো যা অন্ধকারের মধ্য দিয়ে আমাদের পরিচালনা করে।" },
+                { en: "Trust is like a mirror, once broken, it can never be the same.", bn: "বিশ্বাস একটা আয়নার মতো, একবার ভেঙে গেলে আর কখনো আগের মতো হবে না।" },
             ]
+
 
 
         };
@@ -296,8 +315,8 @@
         // Toggle between English and Bangla
         function toggleLanguage() {
             currentLanguage = currentLanguage === "en" ? "bn" : "en";
-            const languageToggle = document.getElementById("language-toggle");
-            languageToggle.textContent = currentLanguage === "en" ? "English" : "বাংলা";
+            document.getElementById("language-toggle").textContent = currentLanguage === "en" ? "English" : "বাংলা";
+            document.documentElement.lang = currentLanguage === "bn" ? "bn" : "en"; // Ensure lang attribute updates
             loadStatements();
         }
 
@@ -353,6 +372,9 @@
                 musicFile = "02music.mp3"; // Replace with the actual path to Universe category music
             }
 
+            else if (category === "trust") {
+                musicFile = "03music.mp3"; // Replace with the actual path to Universe category music
+            }
 
             if (musicFile) {
                 const music = new Audio(musicFile);
@@ -395,20 +417,22 @@
                     : "সফলতা একটি যাত্রা যা আমাদের অনুপ্রাণিত ও উৎসাহিত করে। আসুন সফলতা সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
             }
 
+            else if (category === "trust") {
+                introText = currentLanguage === "en"
+                    ? "Trust is the foundation of every relationship. Let us explore a few universal statements about trust."
+                    : "বিশ্বাস হল প্রতিটি সম্পর্কের ভিত্তি। আসুন বিশ্বাস সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
+            }
+
             if (audioEnabled && introText) {
                 playAudio(introText, true); // Pass true to indicate this is an introductory text
             }
 
             if (statements[category]) {
-                const colors = ["#ffebee", "#e8f5e9", "#e3f2fd", "#ede7f6", "#fce4ec", "#f9fbe7", "#fffde7", "#ede7f6", "#ffecb3", "#e0f2f1"];
-                // Removed sorting to keep original order of statements
-                const sortedStatements = [...statements[category]]; // No .sort() applied
-
-                sortedStatements.forEach((statement, index) => {
+                statements[category].forEach(statement => {
                     const statementDiv = document.createElement("div");
                     statementDiv.className = "statement";
-                    statementDiv.style.backgroundColor = colors[index % colors.length]; // Assign different background colors
-                    statementDiv.innerHTML = `<span>${formatFirstLetter(statement[currentLanguage])}</span>`;
+                    // Use formatFirstLetter to apply conditional styling
+                    statementDiv.innerHTML = formatFirstLetter(statement[currentLanguage]);
                     statementDiv.onclick = () => {
                         if (audioEnabled) playAudio(statement[currentLanguage]);
                     };
@@ -421,7 +445,13 @@
 
         // Format text with first letter styled
         function formatFirstLetter(text) {
-            return `<span style="font-weight:bold; color:#f57c00;">${text.charAt(0)}</span>${text.slice(1)}`;
+            if (currentLanguage === "en") {
+                // Apply bold and color styling for English
+                return `<span style="font-weight:bold; color:#f57c00;">${text.charAt(0)}</span>${text.slice(1)}`;
+            } else {
+                // Return text as-is for Bengali
+                return `<span>${text}</span>`;
+            }
         }
 
         // Play audio with proper language and voice configuration
