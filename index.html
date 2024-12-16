@@ -107,17 +107,20 @@
             color: #f57c00;
         }
 
-        .footer {
+       .footer {
             margin-top: auto;
             /* Pushes the footer to the bottom of the container */
             text-align: center;
             padding: 4px;
             font-size: 10px;
-            /* Fixed font size */
-            /* font-size: 0.7rem; */
+            /* Use a fixed font size in pixels for consistency */
+            line-height: 1;
+            /* Adjust line-height for better readability */
             background-color: #0288d1;
             color: #ffffff;
             border-radius: 10px;
+            word-wrap: break-word;
+            /* Prevent text overflow */
         }
 
         #volume-control::-webkit-slider-thumb {
