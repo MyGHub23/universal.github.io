@@ -198,6 +198,7 @@
             </button>
             <select id="category" onchange="loadStatements()"
                 style="font-size: 0.8rem; padding: 4px; border-radius: 3px; background-color: #e3f2fd; color: blue; border: 1px solid #0288d1; cursor: pointer;">
+                <option value="friendship">Friendship</option>
                 <option value="health">Health</option>
                 <option value="life">Life</option>
                 <option value="success">Success</option>
@@ -336,7 +337,28 @@
                 // { en: "Trust takes years to build but seconds to break.", bn: "বিশ্বাস গড়তে বছর লাগে, কিন্তু ভাঙতে কয়েক সেকেন্ড।" },
                 { en: "Trust is the light that guides us through the darkness.", bn: "বিশ্বাস হলো আলো যা অন্ধকারের মধ্য দিয়ে আমাদের পরিচালনা করে।" },
                 { en: "Trust is like a mirror, once broken, it can never be the same.", bn: "বিশ্বাস একটা আয়নার মতো, একবার ভেঙে গেলে আর কখনো আগের মতো হবে না।" },
+            ],
+
+            friendship: [
+                { en: "Friendship is a gift of the soul.", bn: "বন্ধুত্ব আত্মার একটি উপহার।" },
+                { en: "A friend in need is a friend indeed.", bn: "যে বন্ধুর প্রয়োজন পড়ে, সেই প্রকৃত বন্ধু।" },
+                { en: "Laughter is the glue of friendship.", bn: "হাসি হলো বন্ধুত্বের বাঁধন।" },
+                { en: "True friendship is rare and precious.", bn: "সত্যিকারের বন্ধুত্ব বিরল এবং মূল্যবান।" },
+                { en: "True friends bring out the best in you.", bn: "সত্যিকারের বন্ধুরা আপনার ভেতরের সেরা দিকটি বের করে আনে।" },
+                { en: "Friendship is built on trust and loyalty.", bn: "বন্ধুত্ব গড়ে ওঠে বিশ্বাস এবং আনুগত্যের উপর।" },
+                { en: "Friendship is a journey, not a destination.", bn: "বন্ধুত্ব একটি যাত্রা, গন্তব্য নয়।" },
+                { en: "Distance cannot break a strong friendship.", bn: "দূরত্ব কখনো শক্তিশালী বন্ধুত্ব ভাঙতে পারে না।" },
+                { en: "Friendship is the foundation of a happy life.", bn: "বন্ধুত্ব সুখী জীবনের ভিত্তি।" },
+                { en: "Friendship is a treasure that grows with time.", bn: "বন্ধুত্ব এমন একটি ধন যা সময়ের সাথে বৃদ্ধি পায়।" },
+                { en: "Friendship is a source of strength and comfort.", bn: "বন্ধুত্ব শক্তি ও সান্ত্বনার উৎস।" },
+                { en: "Honest communication strengthens friendship.", bn: "সৎ যোগাযোগ বন্ধুত্বকে শক্তিশালী করে।" },
+                { en: "Friendship is a bond that strengthens over time.", bn: "বন্ধুত্ব একটি বন্ধন যা সময়ের সাথে শক্তিশালী হয়।" },
+                { en: "Friendship is a light that shines in the darkness.", bn: "বন্ধুত্ব অন্ধকারে জ্বলন্ত আলো।" },
+                { en: "Friendship is a treasure that money cannot buy.", bn: "বন্ধুত্ব এমন একটি সম্পদ যা টাকায় কেনা যায় না।" },
+                { en: "Friendship is a single soul dwelling in two bodies.", bn: "বন্ধুত্ব হলো দুই দেহে বসবাসকারী একটিমাত্র আত্মা।" },
+                { en: "Friendship grows through mutual understanding.", bn: "পারস্পরিক বোঝাপড়ার মাধ্যমে বন্ধুত্ব বৃদ্ধি পায়।" }
             ]
+
 
 
 
@@ -410,6 +432,12 @@
                 musicFile = "03music.mp3"; // Replace with the actual path to Universe category music
             }
 
+            
+            else if (category === "friendship") {
+                musicFile = "04music.mp3"; // Replace with the actual path to Universe category music
+            }
+
+
             if (musicFile) {
                 const music = new Audio(musicFile);
                 music.volume = 0.3;
@@ -457,6 +485,13 @@
                     : "বিশ্বাস হল প্রতিটি সম্পর্কের ভিত্তি। আসুন বিশ্বাস সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
             }
 
+            else if (category === "friendship") {
+                introText = currentLanguage === "en"
+                    ? "Friendship is the bond that connects hearts. Let us explore a few universal statements about friendship."
+                    : "বন্ধুত্ব হলো সেই বন্ধন যা হৃদয়কে সংযুক্ত করে। আসুন বন্ধুত্ব সম্পর্কে কিছু সার্বজনীন বিবৃতি অন্বেষণ করি।";
+            }
+
+
             if (audioEnabled && introText) {
                 playAudio(introText, true); // Pass true to indicate this is an introductory text
             }
@@ -471,12 +506,12 @@
                         const firstLetter = statement.en.charAt(0);
                         const restText = statement.en.slice(1);
                         statementDiv.innerHTML = `
-        <span style="font-size: 1rem; color: blue; font-family: Arial, sans-serif;">
+        <span style="font-size: .9rem; color: blue; font-family: Arial, sans-serif;">
             <span style="font-weight: bold; color: #f57c00;">${firstLetter}</span>${restText}
         </span>`;
                     } else {
                         statementDiv.innerHTML = `
-        <span style="font-size: 1rem; color: green; font-family: 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif;">
+        <span style="font-size: .9rem; color: green; font-family: 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif;">
             ${statement.bn}
         </span>`;
                     }
